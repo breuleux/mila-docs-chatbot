@@ -3,7 +3,7 @@ import logging
 import gradio as gr
 import pandas as pd
 
-import cfg
+from . import cfg
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -63,46 +63,51 @@ def chat(history):
         yield history, completion
 
 
-block = gr.Blocks(
-    css="#chatbot .overflow-y-auto{height:500px}",
-    theme=gr.themes.Default(primary_hue="violet", secondary_hue="fuchsia"),
-)
-
-with block:
-    with gr.Row():
-        gr.Markdown("<h3><center>Buster 🤖: A Question-Answering Bot for your documentation</center></h3>")
-
-    chatbot = gr.Chatbot()
-
-    with gr.Row():
-        question = gr.Textbox(
-            label="What's your question?",
-            placeholder="Ask a question to AI stackoverflow here...",
-            lines=1,
-        )
-        submit = gr.Button(value="Send", variant="secondary")
-
-    examples = gr.Examples(
-        examples=[
-            "How can I run a job with 2 GPUs?",
-            "What kind of GPUs are available on the cluster?",
-            "What is the $SCRATCH drive for?",
-        ],
-        inputs=question,
+def main():
+    block = gr.Blocks(
+        css="#chatbot .overflow-y-auto{height:500px}",
+        theme=gr.themes.Default(primary_hue="violet", secondary_hue="fuchsia"),
     )
 
-    gr.Markdown("This application uses GPT to search the docs for relevant info and answer questions.")
+    with block:
+        with gr.Row():
+            gr.Markdown("<h3><center>Buster 🤖: A Question-Answering Bot for your documentation</center></h3>")
 
-    gr.HTML("️<center> Created with ❤️ by @jerpint and @hadrienbertrand")
+        chatbot = gr.Chatbot()
 
-    response = gr.State()
+        with gr.Row():
+            question = gr.Textbox(
+                label="What's your question?",
+                placeholder="Ask a question to AI stackoverflow here...",
+                lines=1,
+            )
+            submit = gr.Button(value="Send", variant="secondary")
 
-    submit.click(user, [question, chatbot], [question, chatbot], queue=False).then(
-        chat, inputs=[chatbot], outputs=[chatbot, response]
-    ).then(add_sources, inputs=[chatbot, response], outputs=[chatbot])
-    question.submit(user, [question, chatbot], [question, chatbot], queue=False).then(
-        chat, inputs=[chatbot], outputs=[chatbot, response]
-    ).then(add_sources, inputs=[chatbot, response], outputs=[chatbot])
+        # examples = gr.Examples(
+        #     examples=[
+        #         "How can I run a job with 2 GPUs?",
+        #         "What kind of GPUs are available on the cluster?",
+        #         "What is the $SCRATCH drive for?",
+        #     ],
+        #     inputs=question,
+        # )
 
-block.queue(concurrency_count=16)
-block.launch(debug=True, share=False, auth=check_auth, auth_message="Request access from an admin.")
+        gr.Markdown("This application uses GPT to search the docs for relevant info and answer questions.")
+
+        gr.HTML("️<center> Created with ❤️ by @jerpint and @hadrienbertrand")
+
+        response = gr.State()
+
+        submit.click(user, [question, chatbot], [question, chatbot], queue=False).then(
+            chat, inputs=[chatbot], outputs=[chatbot, response]
+        ).then(add_sources, inputs=[chatbot, response], outputs=[chatbot])
+        question.submit(user, [question, chatbot], [question, chatbot], queue=False).then(
+            chat, inputs=[chatbot], outputs=[chatbot, response]
+        ).then(add_sources, inputs=[chatbot, response], outputs=[chatbot])
+
+    block.queue(concurrency_count=16)
+    block.launch(debug=True, share=False, auth=check_auth, auth_message="Request access from an admin.")
+
+
+if __name__ == "__main__":
+    main()

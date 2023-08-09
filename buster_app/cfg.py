@@ -1,6 +1,5 @@
 import logging
 import os
-from dataclasses import dataclass
 
 import openai
 from buster.busterbot import Buster, BusterConfig
@@ -10,7 +9,6 @@ from buster.formatters.prompts import PromptFormatter
 from buster.retriever import Retriever, SQLiteRetriever
 from buster.tokenizers import GPTTokenizer
 from buster.validators import QuestionAnswerValidator, Validator
-from huggingface_hub import hf_hub_download
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -22,22 +20,7 @@ password = os.getenv("MILA_PASSWORD")
 # set openAI creds
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-
-# hf hub information
-REPO_ID = os.environ.get("HUB_DATASET_ID")
 DB_FILE = "documents_mila.db"
-HUB_TOKEN = os.environ.get("HUB_TOKEN")
-# download the documents.db hosted on the dataset space
-logger.info(f"Downloading {DB_FILE} from hub...")
-hf_hub_download(
-    repo_id=REPO_ID,
-    repo_type="dataset",
-    filename=DB_FILE,
-    token=HUB_TOKEN,
-    local_dir=".",
-    local_dir_use_symlinks=False,
-)
-logger.info("Downloaded.")
 
 buster_cfg = BusterConfig(
     validator_cfg={
