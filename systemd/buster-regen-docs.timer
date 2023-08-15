@@ -1,0 +1,10 @@
+[Unit]
+Description="Clean up every week"
+
+[Timer]
+OnCalendar=*-*-* 01:00:00
+Persistent=True
+Unit=buster-regen-docs.service
+
+[Install]
+WantedBy=multi-user.target

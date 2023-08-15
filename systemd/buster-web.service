@@ -1,0 +1,12 @@
+[Unit]
+Description="Run Buster's web interface"
+After=network.target
+
+[Service]
+User=buster
+Type=simple
+ExecStart=/buster/scripts/web-interface.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
