@@ -1,3 +1,26 @@
+[tool.poetry]
+name = "buster-service"
+version = "0.1.0"
+description = "Chatbot service for Mila"
+authors = ["Mila"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "buster_service"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+gradio = "^3.40.1"
+pyyaml = "^6.0.1"
+buster = {git = "https://github.com/jerpint/buster", rev = "v1.0.14"}
+
+[tool.poetry.scripts]
+buster-gradio = "buster_service.app.__main__:main"
+buster-acquire-sphinx = "buster_service.acquire.sphinx:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.isort]
 profile = "black"
 
@@ -7,4 +30,3 @@ line-length = 120
 [tool.pytest.ini_options]
 log_cli = true
 log_cli_level = "INFO"
-

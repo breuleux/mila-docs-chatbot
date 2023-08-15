@@ -1,4 +1,6 @@
 *.db
 
 __pycache__/*
+*.pyc
 sphinx-docs
+secrets

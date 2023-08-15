@@ -20,7 +20,7 @@ password = os.getenv("MILA_PASSWORD")
 # set openAI creds
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-DB_FILE = "documents_mila.db"
+DB_FILE = os.getenv("MILA_DATABASE")
 
 buster_cfg = BusterConfig(
     validator_cfg={
