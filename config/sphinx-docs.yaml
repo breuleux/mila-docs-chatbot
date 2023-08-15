@@ -1,0 +1,6 @@
+mila-docs:
+  repo: mila-iqia/mila-docs
+  branch: master
+  requirements: docs/requirements.txt
+  output: docs/_build/
+  base_url: "https://docs.mila.quebec/"
