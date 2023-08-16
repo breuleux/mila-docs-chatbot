@@ -1,3 +1,4 @@
+import os
 import shutil
 import subprocess
 from argparse import ArgumentParser
@@ -29,6 +30,7 @@ def process_docs(name, config, options):
             "REPO": config["repo"],
             "BRANCH": config["branch"],
             "REQFILE": config["requirements"],
+            **os.environ,
         },
     )
 
