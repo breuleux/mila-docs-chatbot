@@ -4,7 +4,7 @@ Description="Regenerate chunks and embeddings for the docs"
 [Service]
 User=buster
 Type=oneshot
-ExecStart=/buster/scripts/acquire.sh
+ExecStart=/buster/code/scripts/acquire.sh
 
 [Install]
 WantedBy=multi-user.agent

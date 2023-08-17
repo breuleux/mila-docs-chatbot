@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=buster
 Type=simple
-ExecStart=/buster/scripts/web-interface.sh
+ExecStart=/buster/code/scripts/web-interface.sh
 Restart=always
 
 [Install]
