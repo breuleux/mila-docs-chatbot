@@ -9,14 +9,20 @@ packages = [{include = "buster_service"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-gradio = "^3.40.1"
 pyyaml = "^6.0.1"
 buster = {git = "https://github.com/jerpint/buster", rev = "v1.0.14"}
 lxml = "^4.9.3"
+ovld = "^0.3.2"
+grizzlaxy = "^0.0.2"
+markdown = "^3.4.4"
 
 [tool.poetry.scripts]
 buster-gradio = "buster_service.app.__main__:main"
 buster-acquire-sphinx = "buster_service.acquire.sphinx:main"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+ruff = "^0.0.285"
 
 [build-system]
 requires = ["poetry-core"]

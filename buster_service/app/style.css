@@ -1,0 +1,101 @@
+
+body {
+    margin: auto;
+    height: 100%;
+    width: 800px;
+    font-size: 18px;
+}
+
+form {
+    margin-block-end: 0px;
+}
+
+.chat-interface {
+    display: grid;
+    grid-template-rows: 1fr auto auto;
+    width: 100%;
+    height: 100vh;
+}
+
+.chat-output {
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
+    box-sizing: border-box;
+    height: 100%;
+    overflow: scroll;
+}
+
+.chat-question, .blocker-overlay {
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+    padding: 5px;
+    /* margin-top: 10px;
+    margin-bottom: 10px; */
+    font-size: 18px;
+    font-family: Helvetica;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.blocker-overlay {
+    color: #888;
+    background: #eee;
+}
+
+.chat-form {
+    position: relative;
+}
+
+.name {
+    display: none;
+    font-weight: bold;
+}
+
+.name:after {
+    content: ": ";
+}
+
+.log-question .name {
+    color: blue;
+}
+
+.log-bot-reply .name {
+    color: purple;
+}
+
+.log-question {
+    margin: 5px;
+}
+
+.log-bot-reply {
+    /* background: #ccf; */
+    background: #eee;
+    border-left: 4px solid purple;
+    padding: 10px;
+    /* border-radius: 5px; */
+    margin: 5px;
+}
+
+.blocker-overlay {
+    height: 100%;
+    width: 100%;
+}
+
+img.wait {
+    height: 0.75em;
+}
+
+.credits {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.sources-list {
+    font-size: 14px;
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
