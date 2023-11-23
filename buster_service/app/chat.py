@@ -6,7 +6,7 @@ import pandas as pd
 from grizzlaxy import bear, here
 from hrepr import H
 from markdown import markdown
-from starbear import Queue
+from starbear.utils import FeedbackQueue
 
 from . import cfg
 
@@ -44,20 +44,28 @@ def complete(dest, question):
 
 @bear
 async def chat(page):
-    def set_form():
-        form = H.form(
-            inp := H.input["chat-question"](
-                placeholder="Ask your question here",
-                name="question",
-                autocomplete="off",
-            ).autoid(),
-            onsubmit=q.wrap(form=True),
-        )
-        page[form_container].set(form)
-        page[inp].do("this.focus()")
-
     page["head"].print(H.link(rel="stylesheet", href=here() / "style.css"))
-    q = Queue()
+
+    input_queue = FeedbackQueue().wrap(
+        # Produce the dictionary of form values as the event
+        form=True,
+        # pre is run in the browser immediately after the event is fired.
+        # It disables the input box. `this` is the <form> element.
+        pre="""
+            let inp = this.querySelector('input');
+            inp.setAttribute('disabled', '');
+        """,
+        # post is run once we have the answer from the server (the call to resolve
+        # in the event loop below). It clears the input box, re-enables it, and
+        # puts the focus in it.  `this` is the <form> element.
+        post="""
+            let inp = this.querySelector('input');
+            inp.value = '';
+            inp.removeAttribute('disabled');
+            inp.focus();
+        """,
+    )
+
     page.print(
         H.div["chat-interface"](
             out := H.div["chat-output"](
@@ -66,15 +74,25 @@ async def chat(page):
                     "below to ask questions about the cluster."
                 )
             ).autoid(),
-            form_container := H.div["chat-form"]().autoid(),
+            H.div["chat-form"](
+                H.form(
+                    H.input["chat-question"](
+                        placeholder="Ask your question here",
+                        name="question",
+                        autocomplete="off",
+                    ),
+                    # Submitting the form (pressing enter in the input box) will
+                    # push the form data in the input_queue.
+                    onsubmit=input_queue,
+                )
+            ),
             H.div["credits"]("Created with ❤️ by @jerpint and @hadrienbertrand"),
         )
     )
-    set_form()
 
-    async for entry in q:
+    async for entry, resolve in input_queue:
+        # Loop over events
         question = entry["question"]
-        page[form_container].set(H.div["blocker-overlay"](question))
         page[out].print(
             H.div["chat-exchange"](
                 H.div["log-question"](H.span["name"]("You"), H.raw(markdown(question))),
@@ -89,7 +107,9 @@ async def chat(page):
         await asyncio.wrap_future(
             pool.submit(partial(complete, page[reply], question)),
         )
-        set_form()
+
+        # Triggers the `post` code on the browser
+        await resolve(True)
 
 
 ROUTES = chat

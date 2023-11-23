@@ -26,7 +26,7 @@ form {
     overflow: scroll;
 }
 
-.chat-question, .blocker-overlay {
+.chat-question {
     width: 100%;
     box-sizing: border-box;
     outline: none;
@@ -37,11 +37,6 @@ form {
     font-family: Helvetica;
     border: 1px solid black;
     border-radius: 5px;
-}
-
-.blocker-overlay {
-    color: #888;
-    background: #eee;
 }
 
 .chat-form {
@@ -76,11 +71,6 @@ form {
     padding: 10px;
     /* border-radius: 5px; */
     margin: 5px;
-}
-
-.blocker-overlay {
-    height: 100%;
-    width: 100%;
 }
 
 img.wait {
