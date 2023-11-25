@@ -27,7 +27,7 @@ if [ "$PREVIOUS" = "$LATEST" ]; then
 fi
 echo "Commit at $BRANCH is new, re-generating"
 
-source $REPO/.venv/bin/activate
+source .venv/bin/activate
 pip install -U pip
 pip install -r $REQFILE
 sphinx-build -b html docs/ docs/_build/

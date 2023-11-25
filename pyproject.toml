@@ -19,10 +19,6 @@ starlette = "0.27.0"
 markdown = "^3.4.4"
 openai = "0.28.1"
 
-[tool.poetry.scripts]
-buster-gradio = "buster_service.app.__main__:main"
-buster-acquire-sphinx = "buster_service.acquire.sphinx:main"
-
 [tool.poetry.group.dev.dependencies]
 black = "^23.7.0"
 ruff = "^0.0.285"

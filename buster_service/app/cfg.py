@@ -16,14 +16,14 @@ buster: Buster = None
 config: dict = None
 
 
-def configure(cfg, relative_to):
+def configure(cfg):
     global config, buster
     config = cfg
 
     # set openAI creds
     openai.api_key = config["openai_api_key"]
 
-    DB_FILE = relative_to / config["database_path"]
+    DB_FILE = config["database_path"]
 
     buster_cfg = BusterConfig(
         validator_cfg={

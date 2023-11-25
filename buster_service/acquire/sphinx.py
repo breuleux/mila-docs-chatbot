@@ -1,11 +1,9 @@
 import os
 import shutil
 import subprocess
-from argparse import ArgumentParser
 from pathlib import Path
 
 import pandas as pd
-import yaml
 from buster.docparser import generate_embeddings, get_all_documents
 from buster.documents.sqlite.documents import DocumentsDB
 from buster.parser import SphinxParser
@@ -13,8 +11,8 @@ from buster.parser import SphinxParser
 here = Path(__file__).parent
 
 
-def process_docs(name, config, options):
-    base = Path(options.base)
+def process_docs(name, config, global_config, options):
+    base = Path(global_config["data_dir"]) / "sphinx"
     if not base.is_absolute():
         base = Path.cwd() / base
 
@@ -61,26 +59,12 @@ def process_docs(name, config, options):
         print("Generating the embeddings...")
 
         # Generate the embeddings
-        documents_manager = DocumentsDB(options.db)
+        documents_manager = DocumentsDB(global_config["database_path"])
 
         documents = pd.read_csv(output_csv)
         documents = generate_embeddings(documents, documents_manager, 500, "text-embedding-ada-002")
 
 
-def main():
-    parser = ArgumentParser(description="Acquire Sphinx docs.")
-
-    parser.add_argument("config", help="Configuration file.")
-    parser.add_argument("--anew", action="store_true", help="Start generation anew.")
-    parser.add_argument("--base", required=True, help="Base directory for the docs.")
-    parser.add_argument("--db", required=True, help="Path to the database.")
-
-    options = parser.parse_args()
-
-    config = yaml.safe_load(open(options.config, "r"))
+def main(global_config, config, options):
     for key, settings in config.items():
-        process_docs(key, settings, options)
-
-
-if __name__ == "__main__":
-    main()
+        process_docs(key, settings, global_config, options)
