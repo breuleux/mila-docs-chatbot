@@ -17,6 +17,7 @@ grizzlaxy = ">=0.0.11"
 starbear = ">=0.0.13"
 starlette = "0.27.0"
 markdown = "^3.4.4"
+openai = "0.28.1"
 
 [tool.poetry.scripts]
 buster-gradio = "buster_service.app.__main__:main"
