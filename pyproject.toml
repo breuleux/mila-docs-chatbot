@@ -13,7 +13,9 @@ pyyaml = "^6.0.1"
 buster = {git = "https://github.com/jerpint/buster", rev = "v1.0.14"}
 lxml = "^4.9.3"
 ovld = "^0.3.2"
-grizzlaxy = "^0.0.2"
+grizzlaxy = ">=0.0.11"
+starbear = ">=0.0.13"
+starlette = "0.27.0"
 markdown = "^3.4.4"
 
 [tool.poetry.scripts]
