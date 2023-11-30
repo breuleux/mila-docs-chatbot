@@ -3,6 +3,7 @@ import importlib
 import sys
 from pathlib import Path
 
+import openai
 import yaml
 from grizzlaxy import grizzlaxy
 
@@ -39,6 +40,9 @@ def command_acquire(options):
 
     config, directory = _config(options)
     aconfig = config["acquire"]
+
+    # set openAI creds
+    openai.api_key = config["openai_api_key"]
 
     for method in methods:
         module = importlib.import_module(f"buster_service.acquire.{method}")
