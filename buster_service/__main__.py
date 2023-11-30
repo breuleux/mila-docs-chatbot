@@ -51,13 +51,13 @@ def command_acquire(options):
 
 def main():
     parser = argparse.ArgumentParser(description="Start Buster server.")
+    parser.add_argument("--config", help="Configuration file.", required=True)
+
     subparsers = parser.add_subparsers(required=True, dest="command")
     web = subparsers.add_parser("web")
-    web.add_argument("--config", help="Configuration file.", required=True)
 
     acquire = subparsers.add_parser("acquire")
     acquire.add_argument("method", help="Acquisition method.")
-    acquire.add_argument("--config", help="Configuration file.", required=True)
     acquire.add_argument("--anew", action="store_true", help="Start generation anew.")
 
     options = parser.parse_args()
