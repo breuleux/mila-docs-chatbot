@@ -3,11 +3,11 @@ import logging
 import openai
 from buster.busterbot import Buster, BusterConfig
 from buster.completers import ChatGPTCompleter, DocumentAnswerer
-from buster.formatters.documents import DocumentsFormatter
+from buster.formatters.documents import DocumentsFormatterHTML
 from buster.formatters.prompts import PromptFormatter
-from buster.retriever import Retriever, SQLiteRetriever
+from buster.retriever import DeepLakeRetriever, Retriever
 from buster.tokenizers import GPTTokenizer
-from buster.validators import QuestionAnswerValidator, Validator
+from buster.validators import Validator
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -27,35 +27,34 @@ def configure(cfg):
 
     buster_cfg = BusterConfig(
         validator_cfg={
-            "unknown_response_templates": [
-                "I'm sorry, but I am an AI language model trained to assist with questions related to the Mila Cluster. I cannot answer that question as it is not relevant to the cluster or its usage. Is there anything else I can assist you with?",
-            ],
-            "unknown_threshold": 0.85,
-            "embedding_model": "text-embedding-ada-002",
             "use_reranking": True,
-            "check_question_prompt": """You are an chatbot answering questions about the mila cluster, a compute infrastructure.
+            "validate_documents": False,
+            "question_validator_cfg": {
+                "invalid_question_response": "I'm sorry, but I am an AI language model trained to assist with questions related to the Mila Cluster. I cannot answer that question as it is not relevant to the cluster or its usage. Is there anything else I can assist you with?",
+                "check_question_prompt": """You are an chatbot answering questions about the mila cluster, a compute infrastructure.
 
-    Your job is to determine wether or not a question is valid, and should be answered.
-    More general questions are not considered valid, even if you might know the response.
-    A user will submit a question. Respond 'true' if it is valid, respond 'false' if it is invalid.
+        Your job is to determine wether or not a question is valid, and should be answered.
+        More general questions are not considered valid, even if you might know the response.
+        A user will submit a question. Respond 'true' if it is valid, respond 'false' if it is invalid.
 
-    For example:
+        For example:
 
-    Q: How can I run a job with 2 GPUs?
-    true
+        Q: How can I run a job with 2 GPUs?
+        true
 
-    Q: What is the meaning of life?
-    false
+        Q: What is the meaning of life?
+        false
 
-    A user will submit a question. Respond 'true' if it is valid, respond 'false' if it is invalid.""",
-            "completion_kwargs": {
-                "model": "gpt-3.5-turbo",
-                "stream": False,
-                "temperature": 0,
+        A user will submit a question. Respond 'true' if it is valid, respond 'false' if it is invalid.""",
+                "completion_kwargs": {
+                    "model": "gpt-3.5-turbo",
+                    "stream": False,
+                    "temperature": 0,
+                },
             },
         },
         retriever_cfg={
-            "db_path": DB_FILE,
+            "path": DB_FILE,
             "top_k": 3,
             "thresh": 0.7,
             "max_tokens": 2000,
@@ -111,13 +110,13 @@ def configure(cfg):
     )
 
     # initialize buster with the config in cfg.py (adapt to your needs) ...
-    retriever: Retriever = SQLiteRetriever(**buster_cfg.retriever_cfg)
+    retriever: Retriever = DeepLakeRetriever(**buster_cfg.retriever_cfg)
     tokenizer = GPTTokenizer(**buster_cfg.tokenizer_cfg)
     document_answerer: DocumentAnswerer = DocumentAnswerer(
         completer=ChatGPTCompleter(**buster_cfg.completion_cfg),
-        documents_formatter=DocumentsFormatter(tokenizer=tokenizer, **buster_cfg.documents_formatter_cfg),
+        documents_formatter=DocumentsFormatterHTML(tokenizer=tokenizer, **buster_cfg.documents_formatter_cfg),
         prompt_formatter=PromptFormatter(tokenizer=tokenizer, **buster_cfg.prompt_formatter_cfg),
         **buster_cfg.documents_answerer_cfg,
     )
-    validator: Validator = QuestionAnswerValidator(**buster_cfg.validator_cfg)
+    validator: Validator = Validator(**buster_cfg.validator_cfg)
     buster = Buster(retriever=retriever, document_answerer=document_answerer, validator=validator)

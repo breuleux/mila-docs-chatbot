@@ -10,14 +10,13 @@ packages = [{include = "buster_service"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 pyyaml = "^6.0.1"
-buster = {git = "https://github.com/jerpint/buster", rev = "v1.0.14"}
+buster-doctalk = "^1.0.0"
 lxml = "^4.9.3"
 ovld = "^0.3.2"
 grizzlaxy = ">=0.0.11"
-starbear = ">=0.0.13"
+starbear = ">=0.0.14"
 starlette = "0.27.0"
 markdown = "^3.4.4"
-openai = "0.28.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.7.0"
