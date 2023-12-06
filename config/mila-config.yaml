@@ -64,7 +64,7 @@ buster:
         temperature: 0
 
   retriever_cfg:
-    path: /Users/olivier/code/mila-docs-chatbot/deeplake_store
+    path: deeplake_store
     top_k: 3
     thresh: 0.7
     max_tokens: 2000
