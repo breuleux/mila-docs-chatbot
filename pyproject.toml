@@ -17,6 +17,7 @@ grizzlaxy = ">=0.0.11"
 starbear = ">=0.0.14"
 starlette = "0.27.0"
 markdown = "^3.4.4"
+omegaconf = "^2.3.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.7.0"

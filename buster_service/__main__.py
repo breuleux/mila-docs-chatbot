@@ -6,15 +6,20 @@ from pathlib import Path
 import openai
 import yaml
 from grizzlaxy import grizzlaxy
+from omegaconf import OmegaConf
 
 from .app import cfg, chat
 
 
 def _config(options):
-    cfg_file = Path(options.config)
-    with open(cfg_file) as f:
-        config = yaml.safe_load(f)
-    return config, cfg_file.parent
+    configs = []
+    for cfg in options.config:
+        cfg_file = Path(cfg)
+        with open(cfg_file) as f:
+            config = yaml.safe_load(f)
+        directory = cfg_file.parent
+        configs.append(config)
+    return OmegaConf.merge(*configs), directory
 
 
 def command_web(options):
@@ -55,7 +60,7 @@ def command_acquire(options):
 
 def main():
     parser = argparse.ArgumentParser(description="Start Buster server.")
-    parser.add_argument("--config", help="Configuration file.", required=True)
+    parser.add_argument("--config", action="append", help="Configuration file.", required=True)
 
     subparsers = parser.add_subparsers(required=True, dest="command")
     web = subparsers.add_parser("web")
