@@ -27,7 +27,7 @@
       name: "{{ app_user }}"
       comment: Buster user
       groups:
-      - "{{ ansible_common_remote_group }}"
+      - "{{ app_group }}"
 
   - name: Install
     import_role:

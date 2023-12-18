@@ -13,8 +13,8 @@ from .app import cfg, chat
 
 def _config(options):
     configs = []
-    for cfg in options.config:
-        cfg_file = Path(cfg)
+    for filename in options.config:
+        cfg_file = Path(filename)
         with open(cfg_file) as f:
             config = yaml.safe_load(f)
         directory = cfg_file.parent
@@ -27,11 +27,7 @@ def command_web(options):
 
     cfg.configure(config)
 
-    grizzlaxy(
-        module=chat,
-        **config["grizzlaxy"],
-        relative_to=directory,
-    )
+    grizzlaxy(module=chat, **config["grizzlaxy"])
 
 
 def command_acquire(options):
@@ -63,7 +59,7 @@ def main():
     parser.add_argument("--config", action="append", help="Configuration file.", required=True)
 
     subparsers = parser.add_subparsers(required=True, dest="command")
-    web = subparsers.add_parser("web")
+    subparsers.add_parser("web")
 
     acquire = subparsers.add_parser("acquire")
     acquire.add_argument("method", help="Acquisition method.")

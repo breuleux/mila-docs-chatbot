@@ -6,7 +6,7 @@ import pandas as pd
 from grizzlaxy import bear, here
 from hrepr import H
 from markdown import markdown
-from starbear.utils import FeedbackQueue
+from starbear import FeedbackQueue
 
 from . import cfg
 
@@ -44,7 +44,7 @@ def complete(dest, question):
 
 @bear
 async def chat(page):
-    page["head"].print(H.link(rel="stylesheet", href=here() / "style.css"))
+    page.add_resources(here() / "style.css")
 
     input_queue = FeedbackQueue().wrap(
         # Produce the dictionary of form values as the event
