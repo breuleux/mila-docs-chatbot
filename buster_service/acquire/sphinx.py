@@ -8,7 +8,7 @@ from typing import Type
 import pandas as pd
 from bs4 import BeautifulSoup
 from buster.documents_manager import DeepLakeDocumentsManager
-from buster.parser import Parser, SphinxParser
+from buster.parsers.parser import Parser, SphinxParser
 from tqdm import tqdm
 
 here = Path(__file__).parent

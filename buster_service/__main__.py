@@ -1,5 +1,6 @@
 import argparse
 import importlib
+import os
 import sys
 from pathlib import Path
 
@@ -17,13 +18,12 @@ def _config(options):
         cfg_file = Path(filename)
         with open(cfg_file) as f:
             config = yaml.safe_load(f)
-        directory = cfg_file.parent
         configs.append(config)
-    return OmegaConf.merge(*configs), directory
+    return OmegaConf.merge(*configs)
 
 
 def command_web(options):
-    config, directory = _config(options)
+    config = _config(options)
 
     cfg.configure(config)
 
@@ -39,11 +39,11 @@ def command_acquire(options):
     else:
         methods = [options.method]
 
-    config, directory = _config(options)
+    config = _config(options)
     aconfig = config["acquire"]
 
     # set openAI creds
-    openai.api_key = config["openai_api_key"]
+    os.environ["OPENAI_API_KEY"] = openai.api_key = config["openai_api_key"]
 
     for method in methods:
         module = importlib.import_module(f"buster_service.acquire.{method}")
