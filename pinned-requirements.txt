@@ -4,9 +4,9 @@
 #
 #    pip-compile --output-file=pinned-requirements.txt
 #
-aioboto3==12.0.0
+aioboto3==12.1.0
     # via deeplake
-aiobotocore[boto3]==2.7.0
+aiobotocore[boto3]==2.8.0
     # via aioboto3
 aiofiles==23.2.1
     # via gradio
@@ -27,36 +27,38 @@ anyio==3.7.1
     #   fastapi
     #   httpcore
     #   openai
+    #   sse-starlette
     #   starlette
 attrs==23.1.0
     # via
     #   aiohttp
     #   jsonschema
     #   referencing
-authlib==1.2.1
+authlib==1.3.0
     # via grizzlaxy
 beautifulsoup4==4.12.2
     # via bs4
 blessed==1.20.0
     # via jurigged
-boto3==1.28.64
+boto3==1.33.1
     # via
     #   aiobotocore
     #   deeplake
-botocore==1.31.64
+botocore==1.33.1
     # via
     #   aiobotocore
     #   boto3
     #   s3transfer
 bs4==0.0.1
     # via buster-doctalk
-buster-doctalk==1.0.25
+buster-doctalk==1.0.27
     # via buster-service (pyproject.toml)
 certifi==2023.11.17
     # via
     #   httpcore
     #   httpx
     #   requests
+    #   sentry-sdk
 cffi==1.16.0
     # via cryptography
 charset-normalizer==3.3.2
@@ -65,6 +67,7 @@ click==8.1.7
     # via
     #   buster-doctalk
     #   deeplake
+    #   nltk
     #   typer
     #   uvicorn
 codefind==0.1.3
@@ -77,7 +80,7 @@ cryptography==41.0.7
     # via authlib
 cycler==0.12.1
     # via matplotlib
-deeplake==3.8.10
+deeplake==3.8.12
     # via buster-doctalk
 dill==0.3.7
     # via
@@ -90,35 +93,35 @@ dnspython==2.4.2
     # via
     #   pinecone-client
     #   pymongo
-fastapi==0.104.1
-    # via gradio
+fastapi==0.105.0
+    # via
+    #   gradio
+    #   sse-starlette
 ffmpy==0.3.1
     # via gradio
 filelock==3.13.1
     # via huggingface-hub
-fonttools==4.46.0
+fonttools==4.47.0
     # via matplotlib
-frozenlist==1.4.0
+frozenlist==1.4.1
     # via
     #   aiohttp
     #   aiosignal
-fsspec==2023.12.1
+fsspec==2023.12.2
     # via
     #   gradio-client
     #   huggingface-hub
-gradio==4.8.0
+gradio==4.11.0
     # via buster-doctalk
-gradio-client==0.7.1
+gradio-client==0.7.3
     # via gradio
-grizzlaxy==0.0.11
+grizzlaxy[sentry]==0.1.0
     # via buster-service (pyproject.toml)
 h11==0.14.0
     # via
     #   httpcore
     #   uvicorn
-hrepr==0.6.0
-    # via starbear
-html5lib==1.1
+hrepr==0.6.1
     # via starbear
 httpcore==0.17.3
     # via httpx
@@ -128,7 +131,7 @@ httpx==0.24.1
     #   gradio-client
     #   grizzlaxy
     #   openai
-huggingface-hub==0.19.4
+huggingface-hub==0.20.1
     # via
     #   gradio
     #   gradio-client
@@ -154,6 +157,8 @@ jmespath==1.0.1
     # via
     #   boto3
     #   botocore
+joblib==1.3.2
+    # via nltk
 jsonschema==4.20.0
     # via altair
 jsonschema-specifications==2023.11.2
@@ -166,7 +171,7 @@ libdeeplake==0.0.92
     # via deeplake
 loguru==0.7.2
     # via pinecone-client
-lxml==4.9.3
+lxml==4.9.4
     # via
     #   buster-service (pyproject.toml)
     #   starbear
@@ -186,6 +191,8 @@ matplotlib==3.8.2
     #   gradio
 mdurl==0.1.2
     # via markdown-it-py
+mmh3==3.1.0
+    # via pinecone-text
 multidict==6.0.4
     # via
     #   aiohttp
@@ -194,7 +201,9 @@ multiprocess==0.70.15
     # via pathos
 nest-asyncio==1.5.8
     # via deeplake
-numpy==1.26.2
+nltk==3.8.1
+    # via pinecone-text
+numpy==1.25.2
     # via
     #   altair
     #   buster-doctalk
@@ -205,9 +214,10 @@ numpy==1.26.2
     #   matplotlib
     #   pandas
     #   pinecone-client
+    #   pinecone-text
 omegaconf==2.3.0
     # via buster-service (pyproject.toml)
-openai==1.3.7
+openai==1.6.0
     # via buster-doctalk
 orjson==3.9.10
     # via gradio
@@ -225,7 +235,7 @@ packaging==23.2
     #   huggingface-hub
     #   matplotlib
     #   pytest
-pandas==2.1.3
+pandas==2.1.4
     # via
     #   altair
     #   buster-doctalk
@@ -238,6 +248,8 @@ pillow==10.1.0
     #   gradio
     #   matplotlib
 pinecone-client==2.2.4
+    # via buster-doctalk
+pinecone-text==0.7.1
     # via buster-doctalk
 pluggy==1.3.0
     # via pytest
@@ -284,36 +296,37 @@ pyyaml==6.0.1
     #   huggingface-hub
     #   omegaconf
     #   pinecone-client
-referencing==0.31.1
+referencing==0.32.0
     # via
     #   jsonschema
     #   jsonschema-specifications
 regex==2023.10.3
-    # via tiktoken
+    # via
+    #   nltk
+    #   tiktoken
 requests==2.31.0
     # via
-    #   gradio
-    #   gradio-client
     #   huggingface-hub
     #   humbug
     #   pinecone-client
     #   tiktoken
 rich==13.7.0
     # via typer
-rpds-py==0.13.2
+rpds-py==0.15.2
     # via
     #   jsonschema
     #   referencing
-s3transfer==0.7.0
+s3transfer==0.8.0
     # via boto3
 semantic-version==2.10.0
     # via gradio
+sentry-sdk[starlette]==1.39.1
+    # via grizzlaxy
 shellingham==1.5.4
     # via typer
 six==1.16.0
     # via
     #   blessed
-    #   html5lib
     #   python-dateutil
 sniffio==1.3.0
     # via
@@ -323,7 +336,9 @@ sniffio==1.3.0
     #   openai
 soupsieve==2.5
     # via beautifulsoup4
-starbear==0.0.15
+sse-starlette==1.8.2
+    # via grizzlaxy
+starbear==0.1.0
     # via
     #   buster-service (pyproject.toml)
     #   grizzlaxy
@@ -331,6 +346,8 @@ starlette==0.27.0
     # via
     #   buster-service (pyproject.toml)
     #   fastapi
+    #   sentry-sdk
+    #   sse-starlette
     #   starbear
 tabulate==0.9.0
     # via buster-doctalk
@@ -346,11 +363,12 @@ tqdm==4.66.1
     # via
     #   deeplake
     #   huggingface-hub
+    #   nltk
     #   openai
     #   pinecone-client
 typer[all]==0.9.0
     # via gradio
-typing-extensions==4.8.0
+typing-extensions==4.9.0
     # via
     #   fastapi
     #   gradio
@@ -368,20 +386,22 @@ urllib3==2.0.7
     #   botocore
     #   pinecone-client
     #   requests
+    #   sentry-sdk
 uvicorn==0.24.0.post1
     # via
     #   gradio
+    #   sse-starlette
     #   starbear
 watchdog==3.0.0
     # via jurigged
 wcwidth==0.2.12
     # via blessed
-webencodings==0.5.1
-    # via html5lib
 websockets==10.4
     # via
     #   gradio-client
     #   starbear
+wget==3.2
+    # via pinecone-text
 wrapt==1.16.0
     # via aiobotocore
 yarl==1.9.4
