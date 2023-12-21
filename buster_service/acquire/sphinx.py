@@ -124,7 +124,9 @@ def process_docs(name, config, global_config, options):
 
         documents = pd.read_csv(output_csv)
 
-        dm = DeepLakeDocumentsManager(vector_store_path="deeplake_store", overwrite=True)
+        dm = DeepLakeDocumentsManager(
+            vector_store_path=global_config["buster"]["retriever_cfg"]["path"], overwrite=True
+        )
         dm.add(documents)
 
 
