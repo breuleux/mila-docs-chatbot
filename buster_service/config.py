@@ -1,3 +1,4 @@
+from functools import cached_property
 from pathlib import Path
 from gifnoc import define
 from dataclasses import dataclass
@@ -18,10 +19,8 @@ class ChatbotConfiguration:
     acquire: dict[str, dict[str, AcquireConfiguration]]
     buster: dict
 
-    def __post_init__(self):
-        self.buster_object = self.make_buster_object()
-
-    def make_buster_object(self):
+    @cached_property
+    def buster_object(self):
         from buster.busterbot import Buster, BusterConfig
         from buster.completers import ChatGPTCompleter, DocumentAnswerer
         from buster.formatters.documents import DocumentsFormatterHTML

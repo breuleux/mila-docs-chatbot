@@ -42,6 +42,8 @@ def main():
         argparser=parser,
         sources=[{"grizzlaxy": {"module": "buster_service.app.chat"}}],
     ) as (cfg, options):
+        cfg.chatbot.buster_object  # There is a weird bug if we don't fetch this now
+
         globals()[f"command_{options.command}"](cfg, options)
 
 
