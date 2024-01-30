@@ -8,7 +8,7 @@ from hrepr import H
 from markdown import markdown
 from starbear import FeedbackQueue
 
-from .cfg import config
+from ..config import config
 
 pool = ThreadPoolExecutor(max_workers=5)
 
