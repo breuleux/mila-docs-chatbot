@@ -76,11 +76,11 @@ def get_all_documents(
 
 
 def process_docs(name, config, global_config, options):
-    base = Path(global_config["data_dir"]) / "sphinx"
+    base = global_config.chatbot.data_dir / "sphinx"
     if not base.is_absolute():
         base = Path.cwd() / base
 
-    repo_path = base / config["repo"]
+    repo_path = base / config.repo
 
     if options.anew:
         shutil.rmtree(repo_path)
@@ -89,9 +89,9 @@ def process_docs(name, config, global_config, options):
         here / "refresh-repo.sh",
         env={
             "BASE": base,
-            "REPO": config["repo"],
-            "BRANCH": config["branch"],
-            "REQFILE": config["requirements"],
+            "REPO": config.repo,
+            "BRANCH": config.branch,
+            "REQFILE": config.requirements,
             **os.environ,
         },
     )
@@ -100,10 +100,10 @@ def process_docs(name, config, global_config, options):
         print("Chunking the documents...")
 
         # Docs in HTML format
-        outdir = repo_path / config["output"]
+        outdir = repo_path / config.output
 
         # URL that will be prefixed to all chunk links
-        base_url = config["base_url"]
+        base_url = config.base_url
 
         # Parser to use, you can create one by inheriting from buster.parser.Parser
         parser = SphinxParser
@@ -114,7 +114,8 @@ def process_docs(name, config, global_config, options):
         # Create the chunks, returns a DataFrame
         documents_df = get_all_documents(outdir, base_url, parser)
 
-        # The source column is used to easily filter/update the documents. We could have mila-docs, slack-threads, office-hours, ...
+        # The source column is used to easily filter/update the documents.
+        # We could have mila-docs, slack-threads, office-hours, ...
         documents_df["source"] = name
 
         # Save the chunks
@@ -125,7 +126,8 @@ def process_docs(name, config, global_config, options):
         documents = pd.read_csv(output_csv)
 
         dm = DeepLakeDocumentsManager(
-            vector_store_path=global_config["buster"]["retriever_cfg"]["path"], overwrite=True
+            vector_store_path=global_config.chatbot.buster["retriever_cfg"]["path"],
+            overwrite=True,
         )
         dm.add(documents)
 

@@ -8,7 +8,7 @@ from hrepr import H
 from markdown import markdown
 from starbear import FeedbackQueue
 
-from . import cfg
+from .cfg import config
 
 pool = ThreadPoolExecutor(max_workers=5)
 
@@ -31,7 +31,7 @@ def format_sources(matched_documents: pd.DataFrame) -> str:
 
 
 def complete(dest, question):
-    completion = cfg.buster.process_input(question)
+    completion = config.buster_object.process_input(question)
     text = ""
     for token in completion.answer_generator:
         text += token
