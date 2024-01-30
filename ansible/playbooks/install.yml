@@ -2,10 +2,11 @@
 - hosts: all
   vars:
     app_config_defaults:
-      data_dir: "{{ app_data_dir }}"
-      buster:
-        retriever_cfg:
-          path: "{{ app_data_dir }}/deeplake"
+      chatbot:
+        data_dir: "{{ app_data_dir }}"
+        buster:
+          retriever_cfg:
+            path: "{{ app_data_dir }}/deeplake"
 
     buster_run: "python -m buster_service --config {{ app_config_dir }}/mila-config.yaml --config {{ app_config }} --config {{ app_secrets }}"
 
