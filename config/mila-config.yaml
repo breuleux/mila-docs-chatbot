@@ -20,106 +20,108 @@ grizzlaxy:
   sentry:
     enabled: false
 
-acquire:
-  sphinx:
-    mila-docs:
-      repo: mila-iqia/mila-docs
-      branch: master
-      requirements: docs/requirements.txt
-      output: docs/_build/
-      base_url: "https://docs.mila.quebec/"
+chatbot:
 
-buster:
-  validator_cfg:
-    use_reranking: true
-    validate_documents: false
-    question_validator_cfg:
-      invalid_question_response: >
-        I'm sorry, but I am an AI language model trained to assist with
-        questions related to the Mila Cluster. I cannot answer that question
-        as it is not relevant to the cluster or its usage. Is there anything
-        else I can assist you with?
-      check_question_prompt: |
-        You are an chatbot answering questions about the mila cluster, a compute
-        infrastructure.
+  acquire:
+    sphinx:
+      mila-docs:
+        repo: mila-iqia/mila-docs
+        branch: master
+        requirements: docs/requirements.txt
+        output: docs/_build/
+        base_url: "https://docs.mila.quebec/"
 
-        Your job is to determine wether or not a question is valid, and should be answered.
-        More general questions are not considered valid, even if you might know the response.
-        A user will submit a question. Respond 'true' if it is valid, respond 'false' if it
-        is invalid.
+  buster:
+    validator_cfg:
+      use_reranking: true
+      validate_documents: false
+      question_validator_cfg:
+        invalid_question_response: >
+          I'm sorry, but I am an AI language model trained to assist with
+          questions related to the Mila Cluster. I cannot answer that question
+          as it is not relevant to the cluster or its usage. Is there anything
+          else I can assist you with?
+        check_question_prompt: |
+          You are an chatbot answering questions about the mila cluster, a compute
+          infrastructure.
 
-        For example:
+          Your job is to determine wether or not a question is valid, and should be answered.
+          More general questions are not considered valid, even if you might know the response.
+          A user will submit a question. Respond 'true' if it is valid, respond 'false' if it
+          is invalid.
 
-        Q: How can I run a job with 2 GPUs?
-        true
+          For example:
 
-        Q: What is the meaning of life?
-        false
+          Q: How can I run a job with 2 GPUs?
+          true
 
-        A user will submit a question. Respond 'true' if it is valid, respond 'false'
-        if it is invalid.
+          Q: What is the meaning of life?
+          false
+
+          A user will submit a question. Respond 'true' if it is valid, respond 'false'
+          if it is invalid.
+        completion_kwargs:
+          model: "gpt-3.5-turbo"
+          stream: false
+          temperature: 0
+
+    retriever_cfg:
+      path: deeplake_store
+      top_k: 3
+      thresh: 0.7
+      max_tokens: 2000
+      embedding_model: "text-embedding-ada-002"
+
+    documents_answerer_cfg:
+      no_documents_message: "No documents are available for this question."
+
+    completion_cfg:
       completion_kwargs:
         model: "gpt-3.5-turbo"
-        stream: false
+        stream: true
         temperature: 0
 
-  retriever_cfg:
-    path: deeplake_store
-    top_k: 3
-    thresh: 0.7
-    max_tokens: 2000
-    embedding_model: "text-embedding-ada-002"
+    tokenizer_cfg:
+      model_name: "gpt-3.5-turbo"
 
-  documents_answerer_cfg:
-    no_documents_message: "No documents are available for this question."
+    documents_formatter_cfg:
+        max_tokens: 3500
+        formatter: "{content}"
 
-  completion_cfg:
-    completion_kwargs:
-      model: "gpt-3.5-turbo"
-      stream: true
-      temperature: 0
-
-  tokenizer_cfg:
-    model_name: "gpt-3.5-turbo"
-
-  documents_formatter_cfg:
+    prompt_formatter_cfg:
       max_tokens: 3500
-      formatter: "{content}"
+      text_before_docs: >
+        You are a chatbot assistant answering technical questions about the Mila Cluster, a GPU cluster for Mila Students.
+        You are a chatbot assistant answering technical questions about the Mila Cluster.
+        You can only respond to a question if the content necessary to answer the question is contained in the following provided documentation.
+        If the answer is in the documentation, summarize it in a helpful way to the user.
+        If it isn't, simply reply that you cannot answer the question because it is not available in your documentation.
+        If it is a coding related question that you know the answer to, answer but warn the user that it wasn't taken directly from the documentation.
+        Do not refer to the documentation directly, but use the instructions provided within it to answer questions.
+        Here is the documentation:
+        <DOCUMENTS>
+      text_after_docs: |
+        <\DOCUMENTS>
+        REMEMBER:
+        You are a chatbot assistant answering technical questions about the Mila Cluster,
+        a GPU cluster for Mila Students.
+        Here are the rules you must follow:
+        1) You must only respond with information contained in the documentation above.
+          Say you do not know if the information is not provided.
+        2) Make sure to format your answers in Markdown format, including code block and
+          snippets.
+        3) Do not reference any links, urls or hyperlinks in your answers.
+        4) Do not refer to the documentation directly, but use the instructions provided
+          within it to answer questions.
+        5) If you do not know the answer to a question, or if it is completely irrelevant
+          to the library usage, simply reply with:
+          'I'm sorry, but I am an AI language model trained to assist with questions related
+          to AI. I cannot answer that question as it is not relevant to the library or its
+          usage. Is there anything else I can assist you with?'
+          For example:
+          What is the meaning of life for a cluster bot?
+          I'm sorry, but I am an AI language model trained to assist with questions related
+          to the Mila Cluster. I cannot answer that question as it is not relevant to its
+          usage. Is there anything else I can assist you with?
 
-  prompt_formatter_cfg:
-    max_tokens: 3500
-    text_before_docs: >
-      You are a chatbot assistant answering technical questions about the Mila Cluster, a GPU cluster for Mila Students.
-      You are a chatbot assistant answering technical questions about the Mila Cluster.
-      You can only respond to a question if the content necessary to answer the question is contained in the following provided documentation.
-      If the answer is in the documentation, summarize it in a helpful way to the user.
-      If it isn't, simply reply that you cannot answer the question because it is not available in your documentation.
-      If it is a coding related question that you know the answer to, answer but warn the user that it wasn't taken directly from the documentation.
-      Do not refer to the documentation directly, but use the instructions provided within it to answer questions.
-      Here is the documentation:
-      <DOCUMENTS>
-    text_after_docs: |
-      <\DOCUMENTS>
-      REMEMBER:
-      You are a chatbot assistant answering technical questions about the Mila Cluster,
-      a GPU cluster for Mila Students.
-      Here are the rules you must follow:
-      1) You must only respond with information contained in the documentation above.
-         Say you do not know if the information is not provided.
-      2) Make sure to format your answers in Markdown format, including code block and
-         snippets.
-      3) Do not reference any links, urls or hyperlinks in your answers.
-      4) Do not refer to the documentation directly, but use the instructions provided
-         within it to answer questions.
-      5) If you do not know the answer to a question, or if it is completely irrelevant
-         to the library usage, simply reply with:
-        'I'm sorry, but I am an AI language model trained to assist with questions related
-        to AI. I cannot answer that question as it is not relevant to the library or its
-        usage. Is there anything else I can assist you with?'
-        For example:
-        What is the meaning of life for a cluster bot?
-        I'm sorry, but I am an AI language model trained to assist with questions related
-        to the Mila Cluster. I cannot answer that question as it is not relevant to its
-        usage. Is there anything else I can assist you with?
-
-      Now answer the following question:
+        Now answer the following question:
