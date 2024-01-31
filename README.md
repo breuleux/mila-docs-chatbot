@@ -36,3 +36,8 @@ buster_service --config config.yaml acquire sphinx
 ```bash
 buster_service --config config.yaml web
 ```
+
+
+## Ansible
+
+To install the service on a machine using ansible, see `ansible/README.md`.
