@@ -39,6 +39,7 @@ def main():
     acquire.add_argument("--anew", action="store_true", help="Start generation anew.")
 
     with gifnoc.gifnoc(
+        envvar="BUSTER_CONFIG",
         argparser=parser,
         sources=[{"grizzlaxy": {"module": "buster_service.app.chat"}}],
     ) as (cfg, options):

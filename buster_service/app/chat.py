@@ -42,7 +42,7 @@ def complete(dest, question):
         dest.print(H.div["sources-list"](H.raw(markdown(src))))
 
 
-@bear
+@bear(template_params={"title": "Mila documentation chatbot"})
 async def chat(page):
     page.add_resources(here() / "style.css")
 
