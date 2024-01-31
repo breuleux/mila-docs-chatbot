@@ -14,8 +14,16 @@ class AcquireConfiguration:
 
 
 @dataclass
+class ChatbotStrings:
+    welcome: str
+    placeholder: str
+    credits: str
+
+
+@dataclass
 class ChatbotConfiguration:
     data_dir: Path
+    strings: ChatbotStrings
     acquire: dict[str, dict[str, AcquireConfiguration]]
     buster: dict
 

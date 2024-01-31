@@ -68,16 +68,11 @@ async def chat(page):
 
     page.print(
         H.div["chat-interface"](
-            out := H.div["chat-output"](
-                H.p(
-                    "Welcome to the Mila cluster chatbot! Please use the input box "
-                    "below to ask questions about the cluster."
-                )
-            ).autoid(),
+            out := H.div["chat-output"](H.p(config.strings.welcome)).autoid(),
             H.div["chat-form"](
                 H.form(
                     H.input["chat-question"](
-                        placeholder="Ask your question here",
+                        placeholder=config.strings.placeholder,
                         name="question",
                         autocomplete="off",
                     ),
@@ -86,7 +81,7 @@ async def chat(page):
                     onsubmit=input_queue,
                 )
             ),
-            H.div["credits"]("Created with ❤️ by @jerpint and @hadrienbertrand"),
+            H.div["credits"](config.strings.credits),
         )
     )
 

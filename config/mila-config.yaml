@@ -21,6 +21,12 @@ grizzlaxy:
     enabled: false
 
 chatbot:
+  strings:
+    welcome: >
+      Welcome to the Mila cluster chatbot! Please use the input box
+      below to ask questions about the cluster.
+    placeholder: "Ask your question here"
+    credits: "Created with ❤️ by @jerpint, @hadrienbertrand and @broolucks"
 
   acquire:
     sphinx:
