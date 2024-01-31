@@ -123,7 +123,7 @@ gradio==4.16.0
     # via buster-doctalk
 gradio-client==0.8.1
     # via gradio
-grizzlaxy[sentry]==0.2.0
+grizzlaxy[sentry]==0.2.1
     # via
     #   buster-service (pyproject.toml)
     #   grizzlaxy
