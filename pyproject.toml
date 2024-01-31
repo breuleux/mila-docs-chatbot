@@ -25,6 +25,9 @@ urllib3 = "<2.0"
 black = "^23.7.0"
 ruff = "^0.0.285"
 
+[tool.poetry.scripts]
+buster_service = "buster_service.__main__:main"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
