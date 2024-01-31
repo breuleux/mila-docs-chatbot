@@ -2,16 +2,37 @@
 
 ## Install
 
-    pip install -e .
+```bash
+pip install -e .
+```
 
-## Set the variables
+Reproducible install:
 
-    export MILA_USERNAME=...  # auth for the login page
-    export MILA_PASSWORD=...  # auth for the login page
-    export OPENAI_API_KEY=...  # valid openai key to use
-    export HUB_DATASET_ID=...  # link to the dataset hosted on huggingface
-    export HUB_TOKEN=...  # huggingface api key
+```bash
+pip install -r pinned-requirements.txt
+```
 
-## Run the app locally
 
-    gradio gradio_app.py --reload
+## Configure
+
+* Copy `config/mila-config.yaml` to `config.yaml` and adapt to your use case.
+* Set `OPENAI_API_KEY` to your OpenAI API key.
+  * Alternatively, you can set `openai: api_key: API_KEY` in the YAML configuration file.
+
+Optionally, set `BUSTER_CONFIG` to the path to the configuration, which will spare you from having to write `--config` all the time.
+
+
+## Acquire documentation
+
+Currently, there is only an acquirer for Sphinx documentation.
+
+```bash
+buster_service --config config.yaml acquire sphinx
+```
+
+
+## Start the web service
+
+```bash
+buster_service --config config.yaml web
+```
