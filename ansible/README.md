@@ -20,9 +20,15 @@ Here is an example of inventory to use with this role. Set `<VARIABLE>` to its p
 ```
 all:
   vars:
+    app_repo: https://github.com/breuleux/mila-docs-chatbot
+    app_tag: auto
+    python_version: "3.11"
+    conda_version: py311_23.11.0-1-Linux-x86_64
+
     app_name: buster
     app_module: buster_service  # Do not change this one
     app_user: buster
+
     app_config_dict:
       grizzlaxy:
         port: <PORT>
@@ -31,6 +37,7 @@ all:
           enabled: true
         oauth:
           enabled: true
+
     app_secrets_dict:
       openai:
         api_key: <OPENAI_API_KEY (SECRET!)>
@@ -39,6 +46,7 @@ all:
             environ:
               GOOGLE_CLIENT_ID: <GOOGLE_CLIENT_ID (SECRET!)>
               GOOGLE_CLIENT_SECRET: <GOOGLE_CLIENT_SECRET (SECRET!)>
+
     app_ssl_cert: <SSL_CERT_CONTENT (SECRET!)>
     app_ssl_key: <SSL_KEY_CONTENT (SECRET!)>
 ```
