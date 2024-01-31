@@ -9,6 +9,8 @@ grizzlaxy:
   oauth:
     enabled: false
     permissions: permissions.json
+    default_permissions:
+      "/": "*@mila.quebec"
     name: google
     server_metadata_url: "https://accounts.google.com/.well-known/openid-configuration"
     client_kwargs:
@@ -21,6 +23,8 @@ grizzlaxy:
     enabled: false
 
 chatbot:
+  data_dir: ../data  # NOTE: Relative to configuration file
+
   strings:
     welcome: >
       Welcome to the Mila cluster chatbot! Please use the input box
@@ -72,7 +76,7 @@ chatbot:
           temperature: 0
 
     retriever_cfg:
-      path: deeplake_store
+      path: deeplake_store  # NOTE: Relative to current working directory
       top_k: 3
       thresh: 0.7
       max_tokens: 2000
