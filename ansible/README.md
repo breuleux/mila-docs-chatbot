@@ -41,11 +41,11 @@ all:
     app_secrets_dict:
       openai:
         api_key: <OPENAI_API_KEY (SECRET!)>
-        grizzlaxy:
-          oauth:
-            environ:
-              GOOGLE_CLIENT_ID: <GOOGLE_CLIENT_ID (SECRET!)>
-              GOOGLE_CLIENT_SECRET: <GOOGLE_CLIENT_SECRET (SECRET!)>
+      grizzlaxy:
+        oauth:
+          environ:
+            GOOGLE_CLIENT_ID: <GOOGLE_CLIENT_ID (SECRET!)>
+            GOOGLE_CLIENT_SECRET: <GOOGLE_CLIENT_SECRET (SECRET!)>
 
     app_ssl_cert: <SSL_CERT_CONTENT (SECRET!)>
     app_ssl_key: <SSL_KEY_CONTENT (SECRET!)>
