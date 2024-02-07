@@ -13,21 +13,23 @@ from ..config import config
 pool = ThreadPoolExecutor(max_workers=5)
 
 
-def format_sources(matched_documents: pd.DataFrame) -> str:
+def format_sources(matched_documents: pd.DataFrame):
     if len(matched_documents) == 0:
         return ""
 
     matched_documents.similarity_to_answer = matched_documents.similarity_to_answer * 100
 
-    documents_answer_template: str = (
-        "📝 Here are the sources I used to answer your question:\n\n{documents}\n\n{footnote}"
+    return H.div["sources-list"](
+        "📝 Here are the sources I used to answer your question:",
+        H.ul(
+            H.li(
+                H.a(document.title, href=document.url, target="_blank"),
+                f", relevance: {document.similarity_to_answer:2.1f} %",
+            )
+            for _, document in matched_documents.iterrows()
+        ),
+        "I'm a bot 🤖 and not always perfect.",
     )
-    document_template: str = "* [🔗 {document.title}]({document.url}), relevance: {document.similarity_to_answer:2.1f} %"
-
-    documents = "\n".join([document_template.format(document=document) for _, document in matched_documents.iterrows()])
-    footnote: str = "I'm a bot 🤖 and not always perfect."
-
-    return documents_answer_template.format(documents=documents, footnote=footnote)
 
 
 def complete(dest, question):
@@ -38,8 +40,7 @@ def complete(dest, question):
         dest.set(H.raw(markdown(text)))
 
     if completion.answer_relevant:
-        src = format_sources(completion.matched_documents)
-        dest.print(H.div["sources-list"](H.raw(markdown(src))))
+        dest.print(format_sources(completion.matched_documents))
 
 
 @bear(template_params={"title": "Mila documentation chatbot"})
