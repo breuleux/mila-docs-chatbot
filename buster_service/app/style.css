@@ -2,7 +2,7 @@
 body {
     margin: auto;
     height: 100%;
-    width: 800px;
+    max-width: 800px;
     font-size: 18px;
 }
 
@@ -13,7 +13,7 @@ form {
 .chat-interface {
     display: grid;
     grid-template-rows: 1fr auto auto;
-    width: 100%;
+    margin: 10px;
     height: 100vh;
 }
 
