@@ -1,0 +1,24 @@
+---
+- name: Install
+  import_role:
+    name: pyservice
+    tasks_from: setup
+
+- name: Copy default config
+  ansible.builtin.copy:
+    remote_src: true
+    src: "{{ app_code_dir }}/config/mila-config.yaml"
+    dest: "{{ app_config }}"
+    owner: "{{ app_user }}"
+
+- name: Template config overrides
+  ansible.builtin.template:
+    src: "overrides.yaml"
+    dest: "{{ app_config_dir }}/overrides.yaml"
+    owner: "{{ app_user }}"
+    mode: "0600"
+
+- name: Activate
+  import_role:
+    name: pyservice
+    tasks_from: activate

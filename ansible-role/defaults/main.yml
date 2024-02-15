@@ -1,0 +1,17 @@
+buster_name: buster
+buster_user: buster
+
+buster_repo: null
+buster_tag: null
+
+buster_openai_api_key: null
+
+buster_ssl_enabled: false
+buster_ssl_cert: null
+buster_ssl_key: null
+
+buster_oauth_enabled: false
+buster_google_client_id: null
+buster_google_client_secret: null
+
+buster_sentry_enabled: false

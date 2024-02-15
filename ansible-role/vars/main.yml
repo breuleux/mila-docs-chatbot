@@ -1,0 +1,27 @@
+buster_run: "python -m buster_service --config {{ app_config }} --config {{ app_config_dir }}/overrides.yaml"
+
+app_name: "{{ buster_name }}"
+app_user: "{{ buster_user }}"
+app_repo: "{{ buster_repo }}"
+app_tag: "{{ buster_tag }}"
+
+app_module: buster_service
+
+app_services:
+  - name: web
+    description: Web server
+    command: "{{ buster_run }} web"
+
+app_timers:
+  - name: acquire
+    description: Acquire documentation
+    command: "{{ buster_run }} acquire all"
+    schedule: "Mon, 02:00"
+
+app_files:
+  - dest: "{{ app_config_dir }}/cert/cert.pem"
+    content: "{{ buster_ssl_cert }}"
+    mode: "0600"
+  - dest: "{{ app_config_dir }}/cert/cert-key.pem"
+    content: "{{ buster_ssl_key }}"
+    mode: "0600"

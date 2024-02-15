@@ -1,0 +1,26 @@
+openai:
+  api_key: "{{ buster_openai_api_key }}"
+
+chatbot:
+  data_dir: "{{ app_data_dir }}"
+  buster:
+    retriever_cfg:
+      path: "{{ app_data_dir }}/deeplake"
+
+grizzlaxy:
+  port: {{ buster_port }}
+  host: {{ buster_host }}
+
+  ssl:
+    enabled: {{ buster_ssl_enabled }}
+    keyfile: "cert/cert-key.pem"
+    certfile: "cert/cert.pem"
+
+  oauth:
+    enabled: {{ buster_oauth_enabled }}
+    environ:
+      GOOGLE_CLIENT_ID: "{{ buster_google_client_id }}"
+      GOOGLE_CLIENT_SECRET: "{{ buster_google_client_secret }}"
+
+  sentry:
+    enabled: {{ buster_sentry_enabled }}

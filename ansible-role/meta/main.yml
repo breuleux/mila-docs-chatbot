@@ -1,0 +1,17 @@
+galaxy_info:
+  author: Olivier Breuleux
+  description: Install the mila docs chatbot
+  company: Mila
+  role_name: buster-service
+  namespace: mila
+  license: MIT
+  min_ansible_version: 2.15
+  platforms:
+    - name: Debian
+      versions:
+        - bullseye
+  dependencies:
+    - src: https://github.com/breuleux/ansible-role-pyservice
+      scm: git
+      version: v0.2.0
+      name: pyservice
