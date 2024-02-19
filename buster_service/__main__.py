@@ -1,12 +1,18 @@
 import argparse
 import importlib
+from pathlib import Path
 import sys
+from types import SimpleNamespace
 
 import gifnoc
 from grizzlaxy import grizzlaxy
 
 
 def command_web(configuration, options):
+    if not Path(configuration.chatbot.buster["retriever_cfg"]["path"]).exists():
+        command_acquire(configuration, SimpleNamespace(method="all", anew=True))
+
+    configuration.chatbot.buster_object  # There is a weird bug if we don't fetch this now
     grizzlaxy(configuration.grizzlaxy)
 
 
@@ -43,8 +49,6 @@ def main():
         argparser=parser,
         sources=[{"grizzlaxy": {"module": "buster_service.app.chat"}}],
     ) as (cfg, options):
-        cfg.chatbot.buster_object  # There is a weird bug if we don't fetch this now
-
         globals()[f"command_{options.command}"](cfg, options)
 
 
