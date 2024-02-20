@@ -82,7 +82,7 @@ def process_docs(name, config, global_config, options):
 
     repo_path = base / config.repo
 
-    if options.anew:
+    if options.anew and repo_path.exists():
         shutil.rmtree(repo_path)
 
     results = subprocess.run(
